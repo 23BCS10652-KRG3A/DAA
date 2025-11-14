@@ -1,0 +1,23 @@
+class Solution {
+public:
+    int subarraySum(vector<int>& a, int k) {
+        int total=0;
+      int ps=0;
+        unordered_map<int,int>m;
+        m[0]=1;
+        for(int i=0;i<a.size();i++)
+        {
+            ps+=a[i];
+            if(m.count(ps-k))
+            {
+                total+=m[ps-k];
+                m[ps]++;
+            }
+            else
+            {
+                m[ps]++;
+            }
+        }
+        return total;
+    }
+};

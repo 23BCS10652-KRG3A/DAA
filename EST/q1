@@ -1,0 +1,30 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        vector<int> n(128, 0), win(128, 0);
+        int req = 0, f = 0;
+        for (int i = 0; i < t.size(); i++) {
+            if (n[t[i]] == 0) req++;
+            n[t[i]]++;
+        }
+        int l = 0, start = 0, minLen = INT_MAX;
+        for (int r = 0; r < s.size(); r++) {
+            char c = s[r];
+            win[c]++;
+            if (win[c] == n[c]) f++;
+            while (f == req) {
+                if (r - l + 1 < minLen) {
+                    minLen = r - l + 1;
+                    start = l;
+                }
+                char d = s[l];
+                win[d]--;             
+                if (win[d] < n[d]) f--;
+
+                l++;
+            }
+        }
+        if (minLen == INT_MAX) return "";
+        return s.substr(start, minLen);
+    }
+};
